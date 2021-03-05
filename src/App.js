@@ -1,4 +1,8 @@
+import React, { useState } from 'react';
+import Modal from './components/Modal';
+
 function App() {
+  const [isModalOpen, setIsModalOpen] = useState(false);
   return (
     <div className='container'>
       <div className='flex flex-jc-c flex-ai-c'>
@@ -60,7 +64,17 @@ function App() {
               <td>Lorem ipsum dolor sit amet</td>
               <td>In Progress</td>
               <td>
-                <button className='btn btn-primary'>Edit</button>
+                <button
+                  className='btn btn-primary'
+                  onClick={() => setIsModalOpen(true)}
+                >
+                  Edit
+                </button>
+
+                <Modal open={isModalOpen} onClose={() => setIsModalOpen(false)}>
+                  Fancy Modal
+                </Modal>
+
                 <button className='btn btn-danger'>Delete</button>
               </td>
             </tr>
