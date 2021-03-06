@@ -1,18 +1,53 @@
-import React from 'react';
+import React, { useState } from 'react';
 import ReactDom from 'react-dom';
+import axios from 'axios';
+function Modal({ open, onClose, todo, fetchTodos }) {
+  const [titleUpdate, setTitleUpdate] = useState('');
+  const [status, setStatus] = useState(todo.completed);
 
-function Modal({ open, onClose, todo }) {
   if (!open) return null;
 
-  console.log(todo.completed);
+  const submitHandler = async (e) => {
+    e.preventDefault();
+
+    try {
+      const res = await axios.patch(
+        `https://jsonplaceholder.typicode.com/todos/${todo.id}`,
+        { title: titleUpdate, completed: status }
+      );
+      console.log({ res });
+      onClose();
+      fetchTodos();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return ReactDom.createPortal(
     <>
       <div className='overlay' />
       <div className='modal'>
-        <p>{todo.id}</p>
-        <button onClick={onClose}>Close Modal</button>
-        <input placeholder={todo.title}></input>
-        <input type='checkbox' checked={todo.completed} />
+        <h2>EDIT TODOS</h2>
+        <form className='modal-form' onSubmit={(e) => submitHandler(e)}>
+          <span>{todo.id}</span>
+          <span>Todo Title</span>
+          <input
+            placeholder={todo.title}
+            onChange={(e) => setTitleUpdate(e.target.value)}
+          />
+          <br />
+          <span>Status</span>
+          <input
+            type='checkbox'
+            defaultChecked={todo.completed}
+            onChange={() => setStatus(!status)}
+          />
+          <br />
+          <input type='submit' value='Submit' className='btn btn-primary' />
+          <button className='btn btn-danger' onClick={onClose}>
+            Kapat
+          </button>
+        </form>
       </div>
     </>,
     document.getElementById('portal')

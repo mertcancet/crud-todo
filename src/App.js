@@ -29,7 +29,6 @@ function App() {
     fetchUsers();
   }, []);
 
-  console.log({ todos });
   //Pagination
   const indexOfLastPost = currentPage * 10;
   const indexOfFirstPost = indexOfLastPost - 10;

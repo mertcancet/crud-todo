@@ -1,11 +1,9 @@
-import React, { useState } from 'react';
-import Modal from './Modal';
+import React from 'react';
+
 import axios from 'axios';
 import Edit from './Edit';
 
 function Todos({ todos, loadingTodos, loadingUsers, users, fetchTodos }) {
-  const [isModalOpen, setIsModalOpen] = useState(false);
-
   if (loadingTodos && loadingUsers) {
     return (
       <tr>
@@ -13,17 +11,13 @@ function Todos({ todos, loadingTodos, loadingUsers, users, fetchTodos }) {
       </tr>
     );
   }
-  const closeModal = () => {
-    setIsModalOpen(false);
-    console.log('tık');
-  };
+
   const deleteTodoHandler = async (id) => {
     try {
       const res = await axios.delete(
         `https://jsonplaceholder.typicode.com/todos/${id}`
       );
 
-      console.log(res);
       fetchTodos();
     } catch (error) {
       console.log('error');
@@ -41,7 +35,7 @@ function Todos({ todos, loadingTodos, loadingUsers, users, fetchTodos }) {
                 <td>{user.name}</td>
                 <td>{todo.completed ? <>Done</> : <>In Progress</>}</td>
                 <td>
-                  <Edit todo={todo} />
+                  <Edit todo={todo} fetchTodos={fetchTodos} />
                   <button
                     className='btn btn-danger'
                     onClick={() => deleteTodoHandler(todo.id)}

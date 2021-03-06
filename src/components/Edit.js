@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Modal from './Modal';
 
-function Edit({ todo }) {
+function Edit({ todo, fetchTodos }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const closeModal = () => {
@@ -14,7 +14,12 @@ function Edit({ todo }) {
         Edit
       </button>
 
-      <Modal open={isModalOpen} onClose={() => closeModal()} todo={todo} />
+      <Modal
+        open={isModalOpen}
+        onClose={() => closeModal()}
+        todo={todo}
+        fetchTodos={fetchTodos}
+      />
     </>
   );
 }
