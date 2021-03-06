@@ -9,11 +9,12 @@
     border-radius: 0.5rem;
     &-form{
         > span {
-            margin: 5px;
+            margin: .375rem;
             font-weight: 500;
         }
         > input {
-            margin: 5px;
+            margin: .375rem;
+            padding: .375rem;
         }
     }
 }

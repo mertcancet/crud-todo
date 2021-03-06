@@ -29,7 +29,8 @@ function Modal({ open, onClose, todo, fetchTodos }) {
       <div className='modal'>
         <h2>EDIT TODOS</h2>
         <form className='modal-form' onSubmit={(e) => submitHandler(e)}>
-          <span>{todo.id}</span>
+          <span>ID:{todo.id}</span>
+          <br />
           <span>Todo Title</span>
           <input
             placeholder={todo.title}
@@ -43,6 +44,7 @@ function Modal({ open, onClose, todo, fetchTodos }) {
             onChange={() => setStatus(!status)}
           />
           <br />
+          <hr />
           <input type='submit' value='Submit' className='btn btn-primary' />
           <button className='btn btn-danger' onClick={onClose}>
             Kapat

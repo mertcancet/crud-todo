@@ -61,7 +61,11 @@ function App() {
           </tbody>
         </table>
       </div>
-      <Pagination totalTodos={todos.length} paginate={paginate} />
+      <Pagination
+        totalTodos={todos.length}
+        paginate={paginate}
+        currentPage={currentPage}
+      />
     </div>
   );
 }
