@@ -3,10 +3,8 @@ import Modal from './Modal';
 
 function Todos({ todos, loadingTodos, loadingUsers, users }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  console.log({ loadingTodos });
-  console.log({ loadingUsers });
+
   if (loadingTodos && loadingUsers) {
-    console.log('selm');
     return (
       <tr>
         <td>Loading...</td>
@@ -19,11 +17,11 @@ function Todos({ todos, loadingTodos, loadingUsers, users }) {
         users.map(
           (user) =>
             todo.userId === user.id && (
-              <tr>
+              <tr key={todo.id}>
                 <td>{todo.id}</td>
                 <td>{todo.title}</td>
                 <td>{user.name}</td>
-                <td>In Progress</td>
+                <td>{todo.completed ? <>Done</> : <>In Progress</>}</td>
                 <td>
                   <button
                     className='btn btn-primary'
