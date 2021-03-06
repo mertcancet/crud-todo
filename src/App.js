@@ -1,8 +1,40 @@
-import React, { useState } from 'react';
-import Modal from './components/Modal';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import Pagination from './components/Pagination';
+import Todos from './components/Todos';
 
 function App() {
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [todos, setTodos] = useState([]);
+  const [users, setUsers] = useState([]);
+  const [loadingTodos, setLoadingTodos] = useState(false);
+  const [loadingUsers, setLoadingUsers] = useState(false);
+
+  const [currentPage, setCurrentPage] = useState(1);
+
+  const fetchTodos = async () => {
+    setLoadingTodos(true);
+    const res = await axios.get('https://jsonplaceholder.typicode.com/todos');
+    setTodos(res.data);
+    setLoadingTodos(false);
+  };
+  const fetchUsers = async () => {
+    setLoadingUsers(true);
+    const res = await axios.get('https://jsonplaceholder.typicode.com/users');
+    setUsers(res.data);
+    setLoadingUsers(false);
+  };
+  useEffect(() => {
+    fetchTodos();
+    fetchUsers();
+  }, []);
+
+  //Pagination
+  const indexOfLastPost = currentPage * 10;
+  const indexOfFirstPost = indexOfLastPost - 10;
+  const currentTodos = todos.slice(indexOfFirstPost, indexOfLastPost);
+
+  const paginate = (pageNumber) => setCurrentPage(pageNumber);
+
   return (
     <div className='container'>
       <div className='flex flex-jc-c flex-ai-c'>
@@ -18,78 +50,16 @@ function App() {
           </thead>
 
           <tbody>
-            <tr>
-              <td>1</td>
-              <td>"Lorem ipsum dolor sit amet, sed do eiusmod tempo</td>
-              <td>Lorem ipsum dolor sit amet</td>
-              <td>In Progress</td>
-              <td>
-                <button>Edit</button>
-                <button>Delete</button>
-              </td>
-            </tr>
-            <tr>
-              <td>1</td>
-              <td>"Lorem ipsum dolor sit amet, sed do eiusmod tempo</td>
-              <td>Lorem ipsum dolor sit amet</td>
-              <td>In Progress</td>
-              <td>
-                <button>Edit</button>
-                <button>Delete</button>
-              </td>
-            </tr>
-            <tr>
-              <td>1</td>
-              <td>"Lorem ipsum dolor sit amet, sed do eiusmod tempo</td>
-              <td>Lorem ipsum dolor sit amet</td>
-              <td>In Progress</td>
-              <td>
-                <button>Edit</button>
-                <button>Delete</button>
-              </td>
-            </tr>
-            <tr>
-              <td>1</td>
-              <td>"Lorem ipsum dolor sit amet, sed do eiusmod tempo</td>
-              <td>Lorem ipsum dolor sit amet</td>
-              <td>In Progress</td>
-              <td>
-                <button>Edit</button>
-                <button>Delete</button>
-              </td>
-            </tr>
-            <tr>
-              <td>1</td>
-              <td>"Lorem ipsum dolor sit amet, sed do eiusmod tempo</td>
-              <td>Lorem ipsum dolor sit amet</td>
-              <td>In Progress</td>
-              <td>
-                <button
-                  className='btn btn-primary'
-                  onClick={() => setIsModalOpen(true)}
-                >
-                  Edit
-                </button>
-
-                <Modal open={isModalOpen} onClose={() => setIsModalOpen(false)}>
-                  Fancy Modal
-                </Modal>
-
-                <button className='btn btn-danger'>Delete</button>
-              </td>
-            </tr>
+            <Todos
+              todos={currentTodos}
+              loadingTodos={loadingTodos}
+              loadingUsers={loadingUsers}
+              users={users}
+            />
           </tbody>
         </table>
       </div>
-      <div className='flex flex-jc-c flex-ai-c'>
-        <button className='pagination btn-primary'>Prev</button>
-        <button className='pagination btn-primary'>1</button>
-        <button className='pagination btn-primary'>2</button>
-        <button className='pagination btn-primary'>3</button>
-        <button className='pagination btn-primary'>4</button>
-        <button className='pagination btn-primary'>5</button>
-        <button className='pagination btn-primary'>Next</button>
-      </div>
+      <Pagination totalTodos={todos.length} paginate={paginate} />
     </div>
   );
 }

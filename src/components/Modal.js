@@ -10,6 +10,7 @@ function Modal({ open, children, onClose }) {
       <div className='modal'>
         <button onClick={onClose}>Close Modal</button>
         {children}
+        <input></input>
       </div>
     </>,
     document.getElementById('portal')
