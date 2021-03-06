@@ -14,9 +14,7 @@ function Todos({ todos, loadingTodos, loadingUsers, users, fetchTodos }) {
 
   const deleteTodoHandler = async (id) => {
     try {
-      const res = await axios.delete(
-        `https://jsonplaceholder.typicode.com/todos/${id}`
-      );
+      await axios.delete(`https://jsonplaceholder.typicode.com/todos/${id}`);
 
       fetchTodos();
     } catch (error) {

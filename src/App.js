@@ -12,17 +12,24 @@ function App() {
   const [currentPage, setCurrentPage] = useState(1);
 
   const fetchTodos = async () => {
-    setLoadingTodos(true);
-    const res = await axios.get('https://jsonplaceholder.typicode.com/todos');
-    setTodos(res.data);
-    setLoadingTodos(false);
-    console.log('1');
+    try {
+      setLoadingTodos(true);
+      const res = await axios.get('https://jsonplaceholder.typicode.com/todos');
+      setTodos(res.data);
+      setLoadingTodos(false);
+    } catch (error) {
+      console.log(error);
+    }
   };
   const fetchUsers = async () => {
-    setLoadingUsers(true);
-    const res = await axios.get('https://jsonplaceholder.typicode.com/users');
-    setUsers(res.data);
-    setLoadingUsers(false);
+    try {
+      setLoadingUsers(true);
+      const res = await axios.get('https://jsonplaceholder.typicode.com/users');
+      setUsers(res.data);
+      setLoadingUsers(false);
+    } catch (error) {
+      console.log(error);
+    }
   };
   useEffect(() => {
     fetchTodos();

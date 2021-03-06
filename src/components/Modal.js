@@ -11,11 +11,10 @@ function Modal({ open, onClose, todo, fetchTodos }) {
     e.preventDefault();
 
     try {
-      const res = await axios.patch(
+      await axios.patch(
         `https://jsonplaceholder.typicode.com/todos/${todo.id}`,
         { title: titleUpdate, completed: status }
       );
-      console.log({ res });
       onClose();
       fetchTodos();
     } catch (error) {

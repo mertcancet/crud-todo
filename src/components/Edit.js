@@ -6,7 +6,6 @@ function Edit({ todo, fetchTodos }) {
 
   const closeModal = () => {
     setIsModalOpen(false);
-    console.log('tık');
   };
   return (
     <>
