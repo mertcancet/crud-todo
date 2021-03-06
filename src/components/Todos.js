@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import Modal from './Modal';
+import axios from 'axios';
+import Edit from './Edit';
 
-function Todos({ todos, loadingTodos, loadingUsers, users }) {
+function Todos({ todos, loadingTodos, loadingUsers, users, fetchTodos }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   if (loadingTodos && loadingUsers) {
@@ -11,6 +13,22 @@ function Todos({ todos, loadingTodos, loadingUsers, users }) {
       </tr>
     );
   }
+  const closeModal = () => {
+    setIsModalOpen(false);
+    console.log('tık');
+  };
+  const deleteTodoHandler = async (id) => {
+    try {
+      const res = await axios.delete(
+        `https://jsonplaceholder.typicode.com/todos/${id}`
+      );
+
+      console.log(res);
+      fetchTodos();
+    } catch (error) {
+      console.log('error');
+    }
+  };
   return (
     <>
       {todos.map((todo) =>
@@ -23,21 +41,13 @@ function Todos({ todos, loadingTodos, loadingUsers, users }) {
                 <td>{user.name}</td>
                 <td>{todo.completed ? <>Done</> : <>In Progress</>}</td>
                 <td>
+                  <Edit todo={todo} />
                   <button
-                    className='btn btn-primary'
-                    onClick={() => setIsModalOpen(true)}
+                    className='btn btn-danger'
+                    onClick={() => deleteTodoHandler(todo.id)}
                   >
-                    Edit
+                    Delete
                   </button>
-
-                  <Modal
-                    open={isModalOpen}
-                    onClose={() => setIsModalOpen(false)}
-                  >
-                    Fancy Modal
-                  </Modal>
-
-                  <button className='btn btn-danger'>Delete</button>
                 </td>
               </tr>
             )

@@ -16,6 +16,7 @@ function App() {
     const res = await axios.get('https://jsonplaceholder.typicode.com/todos');
     setTodos(res.data);
     setLoadingTodos(false);
+    console.log('1');
   };
   const fetchUsers = async () => {
     setLoadingUsers(true);
@@ -28,6 +29,7 @@ function App() {
     fetchUsers();
   }, []);
 
+  console.log({ todos });
   //Pagination
   const indexOfLastPost = currentPage * 10;
   const indexOfFirstPost = indexOfLastPost - 10;
@@ -55,6 +57,7 @@ function App() {
               loadingTodos={loadingTodos}
               loadingUsers={loadingUsers}
               users={users}
+              fetchTodos={fetchTodos}
             />
           </tbody>
         </table>
